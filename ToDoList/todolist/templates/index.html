@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+<div class="container">
+<h2>If you want to add an item to the list, please click on the button.</h2>
+<a href="{{ url_for('add_post') }}" class="btn btn-info" role="button">Add To Do Item</a>
+</div>
+{% endblock %}

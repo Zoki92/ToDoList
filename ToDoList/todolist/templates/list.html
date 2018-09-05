@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+	<div class="container">
+		  <h2 class="pb-3">To Do Tasks:</h2> 
+		  {% if items %}      
+		  <table class="table table-borderless table-dark table-striped">
+		    <thead class="text-info">
+		      <tr>
+		        <th>Firstname:</th>
+		        <th>Task:</th>
+		        <th>Content:</th>
+		        <th>Date</th>
+		        <th class="">Done?</th>
+		      </tr>
+		    </thead>
+		    <tbody class="text-white">
+		    {% for item in items %}
+		      <tr>
+		        <td>{{ item.name }}
+		        <td>{{ item.task }}</td>
+		        <td>{{ item.content }}</td>
+		        <td>{{ item.date_posted.strftime('%d-%m-%Y') }}</td>
+		        <td>
+		       	<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal{{ item.id }}">
+				  Done?
+				</button>				
+				 <!-- Modal  -->
+				<div class="modal fade" id="exampleModal{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title text-primary" id="exampleModalLabel">Task Completion</h5>
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				      <h5 class="text-secondary">Have you finished the task {{ " - " + item.task + "?" }}</h5>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+				        <form action="{{ url_for('delete_item') }}" method="POST">
+		        			<input type="hidden" value="{{ item.task }}" name="task">
+		        			<button type="submit" class="btn btn-success">Done</button>
+		        		</form>
+				      </div>
+				    </div>
+				  </div>
+				</div> 
+				<!-- ENDMODAL -->
+		        	
+				</td>	
+		      </tr>
+		      {% endfor %}
+		    </tbody>
+		  </table>
+		  <h2>If you want to add an item to the list, please click on the button.</h2>
+			<a href="{{ url_for('add_post') }}" class="btn btn-info" role="button">Add To Do Item</a>
+		  {% else %}
+		  <div class="container">
+		  	<div class="row">
+		  		<div class="col-6 bg-danger">
+		  			<h1 class="text-white">NO TASKS WTH! GET ON IT!!!</h1>
+				</div>
+		  		<div class="col-6">
+		  			<a href="{{ url_for('add_post') }}" class="btn btn-info" role="button">Add To Do Item</a>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+
+
+{% endblock %}
+
+
+	
+<!-- 
+
+<form action="{{ url_for('delete_item') }}" method="POST">
+		        		<input type="hidden" value="{{ item.task }}" name="task">
+		        		<button type="submit" class="btn btn-outline-info">Done</button>
+		        	</form> -->
